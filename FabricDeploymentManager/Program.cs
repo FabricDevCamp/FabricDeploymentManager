@@ -1,15 +1,14 @@
-using FabricDeploymentManager.Models;
-using FabricDeploymentManager.Services;
-using FabricDeploymentManager.Services.AsyncProcessing;
-
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Rewrite;
+using FabricDeploymentManager.Services;
+using FabricDeploymentManager.Services.AsyncProcessing;
 
 namespace FabricDeploymentManager {
+
   public class Program {
+  
     public static void Main(string[] args) {
 
       var builder = WebApplication.CreateBuilder(args);
@@ -31,8 +30,6 @@ namespace FabricDeploymentManager {
 
       builder.Services.AddSignalR(config => config.EnableDetailedErrors = true);
 
-
-      // Add services to the container.
       builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
 
       builder.Services.AddRazorPages();
@@ -42,7 +39,6 @@ namespace FabricDeploymentManager {
       // Configure the HTTP request pipeline.
       if (!app.Environment.IsDevelopment()) {
         app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
       }
 
@@ -71,10 +67,6 @@ namespace FabricDeploymentManager {
       );
 
       app.Run();
-
-
-
-
 
     }
   }
