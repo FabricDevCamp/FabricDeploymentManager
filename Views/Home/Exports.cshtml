@@ -1,0 +1,52 @@
+@model List<DeploymentConfiguration>
+
+<h2>Exports</h2>
+  
+<div class="toolbar">
+
+  <a id="export-from-workspace" class="btn btn-primary" asp-action="ExportFromWorkspace">
+    Create Export
+  </a>
+
+  <a id="deploy-from-export" class="btn btn-primary" asp-action="DeployFromExport">
+    Deploy from Export
+  </a>
+
+  <a id="update-from-export" class="btn btn-primary" asp-action="UpdateFromExport">
+    Update from Export
+  </a>
+
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Export Name</th>
+      <th style="text-align:center" >View</th>
+      <th style="text-align:center">Delete</th>
+
+      <th>Solution Name</th>
+      <th>Comment</th>
+      <th>Created</th>
+      <th style="text-align:center">Items</th>
+      <th style="text-align:center">Lakehouses</th>
+      <th style="text-align:center">Connections</th>
+    </tr>
+  </thead>
+  @foreach (var export in @Model) {
+    <tr>
+      <td>@export.ExportName</td>
+      <td style="text-align:center"><a href="/Home/Export/?ExportName=@export.ExportName" class="nav nav-link"><i class="fa fa-binoculars"></i></a></td>
+      <td style="text-align:center"><a href="/Home/DeleteExport/?ExportName=@export.ExportName" class="nav nav-link"><i class="fa fa-remove"></i></a></td>
+      <td>@export.SolutionName</td>
+      <td>@export.Comment</td>
+      <td>@export.Created.ToString()</td>
+      <td style="text-align:center">@export.SourceItems.Count.ToString()</td>
+      <td style="text-align:center">@export.SourceLakehouses.Count.ToString()</td>
+      <td style="text-align:center">@export.SourceConnections.Count.ToString()</td>
+
+
+
+    </tr>
+  }
+</table>

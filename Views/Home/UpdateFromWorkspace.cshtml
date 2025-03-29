@@ -1,0 +1,92 @@
+@model FabricDeploymentManager.Models.UpdateFromWorkspaceModel
+
+<h2>
+  <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+  <span>Update from Workspace</span>
+</h2>
+
+<form id="deploy-solution" method="post" action="UpdateFromWorkspace" class="form-horizontal">
+
+  <div class="row">
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="SourceWorkspace" class="form-label">Source Workspace</label>
+        <input class="form-control" id="SourceWorkspace" name="SourceWorkspace" value="hey hey" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="Customer" class="form-label">Customer Name</label>
+        <input class="form-control" id="Customer" name="Customer" value="hey ho" readonly>
+      </div>
+
+    </div>
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="TargetWorkspaceSelect" class="form-label">Target Workspace</label>
+        <select class="form-control form-select" id="TargetWorkspaceSelect" name="TargetWorkspaceSelect" asp-items="Model.AvailableTargetWorkspaces">
+        </select>
+      </div>
+
+      <input id="TargetWorkspace" name="TargetWorkspace" hidden />
+
+
+      <div class="mb-3">
+        <label for="UpdateType" class="form-label">Update Type</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="UpdateType" value="FullUpdate" id="FullUpdate" checked>
+          <label class="form-check-label" for="FullUpdate">
+            Full Update
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="UpdateType" value="ReportsOnly" id="ReportsOnly">
+          <label class="form-check-label" for="ReportsOnly">
+            Reports Only
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    <i class="fa fa-user-plus"></i>
+    Update Solution
+  </button>
+
+</form>
+
+@section Scripts {
+
+  <script type="text/javascript">
+
+    $(function () {
+
+      let targetWorkspace = $("#TargetWorkspaceSelect option:selected").text();
+      let targetWorkspaceValues = $("#TargetWorkspaceSelect option:selected").val().split("|");
+      let customer = targetWorkspaceValues[0].substring(9);
+      let sourceWorkspace = targetWorkspaceValues[1];
+      $("#TargetWorkspace").val(targetWorkspace);
+      $("#SourceWorkspace").val(sourceWorkspace);
+      $("#Customer").val(customer);
+
+      $("#TargetWorkspaceSelect").on("change", function(){
+        let targetWorkspace = $("#TargetWorkspaceSelect option:selected").text();
+        let targetWorkspaceValues = $("#TargetWorkspaceSelect option:selected").val().split("|");
+        let customer = targetWorkspaceValues[0].substring(9);
+        let sourceWorkspace = targetWorkspaceValues[1];
+        $("#TargetWorkspace").val(targetWorkspace);
+        $("#SourceWorkspace").val(sourceWorkspace);
+        $("#Customer").val(customer);      
+      });
+
+    });
+
+  </script>
+
+}

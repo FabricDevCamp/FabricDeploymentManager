@@ -1,0 +1,5 @@
+expression ProfilesJsonFileUrl = "https://github.com/PowerBiDevCamp/PowerHour/raw/main/profiles.json" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 0457faa1-1d98-4ed2-b85e-22823723f23e
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,221 @@
+@using Microsoft.Fabric.Api.Core.Models
+
+@model FabricDeploymentManager.Models.WorkspaceDetails
+
+@{
+
+  var reportNames = Model.WorkpaceItems.Where(item => item.Type == ItemType.Report).ToList()
+                                       .Select(item => item.DisplayName).ToList();
+
+  string report1 = "Product Sales Time Intelligence";
+  bool report1Exists = reportNames.Contains(report1);
+
+  string report2 = "Product Sales Top 10 Cities";
+  bool report2Exists = reportNames.Contains(report2);
+
+  string report3 = "Power Hour";
+  bool report3Exists = reportNames.Contains(report3);
+
+  bool allReportsExist = report1Exists && report2Exists && report3Exists;
+
+  bool workspaceIsSolution = Model.DisplayName.Contains("Solution");
+
+  bool adoProjectExists = Model.AdoProject != null;
+
+  bool hasAdoExports = adoProjectExists && Model.HasAdoExports;
+
+}
+
+<div id="workspace-page">
+
+  <h2>
+    <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+    <span>Workspace: @Model.DisplayName</span>
+  </h2>
+
+  <div class="workspace-toolbar">
+
+    <a id="go-to-workspace" class="btn btn-primary" href="https://app.powerbi.com/groups/@Model.WorkspaceId.ToString()" target="WorkspaceWebUrl">
+      Web URL
+    </a>
+
+    @if (!allReportsExist) {
+      <span class="toolbar-label">Add Reports:</span>
+    }
+
+    @if (!report1Exists) {
+      <a id="add-time-inteligence-report" class="btn btn-primary show-loading" asp-action="AddSolutionItem" asp-route-ItemName="TimeIntelligenceReport" asp-route-WorkspaceId="@Model.WorkspaceId">
+        Time Inteligence
+      </a>
+    }
+
+    @if (!report2Exists) {
+      <a id="add-top-10-customers-report" class="btn btn-primary show-loading" asp-action="AddSolutionItem" asp-route-ItemName="Top10CitiesReport" asp-route-WorkspaceId="@Model.WorkspaceId">
+        Top 10 Cities
+      </a>
+    }
+
+    @if (!report3Exists) {
+      <a id="add-power-hour-report" class="btn btn-primary show-loading" asp-action="AddSolutionItem" asp-route-ItemName="PowerHour" asp-route-WorkspaceId="@Model.WorkspaceId">
+        Power Hour
+      </a>
+    }
+
+
+    @if (ViewBag.EnableAdoLinks != null && ViewBag.EnableAdoLinks && workspaceIsSolution) {
+
+      @if (!adoProjectExists) {
+        <a id="create-ado-project" class="btn btn-primary float-end  show-loading" asp-action="CreateAdoProject" asp-route-WorkspaceId="@Model.WorkspaceId">
+          Create ADO Project
+        </a>
+      }
+
+      @if (adoProjectExists) {
+
+        @if (hasAdoExports) {
+
+          <a id="update-from-ado" class="btn btn-primary float-end " asp-action="UpdateFromAdoExport" asp-route-WorkspaceId="@Model.WorkspaceId">
+            Update from ADO
+          </a>
+
+          <a id="deploy-from-ado" class="btn btn-primary float-end " asp-action="DeployFromAdoExport" asp-route-WorkspaceId="@Model.WorkspaceId">
+            Deploy from ADO
+          </a>
+
+        }
+
+        <a id="export-to-ado" class="btn btn-primary float-end " asp-action="ExportFromWorkspaceToAdo" asp-route-WorkspaceId="@Model.WorkspaceId">
+          Export to ADO
+        </a>
+
+        <a id="go-to-ado-project" class="btn btn-primary float-end" href="https://dev.azure.com/FabricDevCamp/@Model.AdoProject.Name" target="WorkspaceWebUrl">
+          Go to ADO Project
+        </a>
+
+      }
+
+      <span class="toolbar-label float-end">CI/CD:</span>
+
+    }
+
+
+  </div>
+
+  <div id="contents-main">
+
+    <div class="row">
+
+      <div class="col-6">
+        <h3>Workspace Properties</h3>
+        <table class="table table-sm table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tr><td>Display Name</td><td>@Model.DisplayName</td></tr>
+          <tr><td>Description </td><td>@Model.Description</td></tr>
+          <tr><td>Workspace Id</td><td>@Model.WorkspaceId</td></tr>
+          <tr>
+            <td>Workspace URL</td>
+            <td>
+              <a href="@Model.WorkspaceUrl">
+                @Model.WorkspaceUrl
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="col-6">
+
+        <h3>Workspace Members</h3>
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Member</th>
+              <th>Permissions</th>
+              <th>Member Type</th>
+            </tr>
+          </thead>
+          @foreach (var member in Model.WorkspaceMembers) {
+            <tr>
+              <td>@member.Principal.DisplayName</td>
+              <td>@member.Role</td>
+              <td>@member.Principal.Type</td>
+            </tr>
+          }
+        </table>
+
+      </div>
+
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-12">
+
+        <h3>Workspace Connections</h3>
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Path</th>
+            </tr>
+          </thead>
+          @foreach (var connection in Model.WorkpaceConnetions) {
+            <tr>
+              <td>@connection.DisplayName.Substring(48)</td>
+              <td>@connection.ConnectionDetails.Type</td>
+              <td>@connection.ConnectionDetails.Path</td>
+            </tr>
+          }
+        </table>
+
+        <h3>Workspace Items</h3>
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Display Name</th>
+              <th>Type</th>
+              <th>Item Id</th>
+            </tr>
+          </thead>
+          @foreach (var item in Model.WorkpaceItems) {
+            <tr>
+              <td>@item.DisplayName</td>
+              <td>@item.Type</td>
+              <td>@item.Id.ToString()</td>
+            </tr>
+          }
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="loading" style="display:none;">
+  <div class="loading-image">
+    <img src="~/images/loading.gif" />
+  </div>
+</div>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(function() {
+
+        $(".show-loading").on("click", function() {
+            $("#workspace-page").hide();
+            $(".loading").show(100);
+        });
+
+    });
+  </script>
+}

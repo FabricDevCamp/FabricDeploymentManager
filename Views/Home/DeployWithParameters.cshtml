@@ -1,0 +1,74 @@
+@model FabricDeploymentManager.Models.DeployWithParametersModel
+
+<h2>
+  <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+  <span>Deploy with Parameters</span>
+</h2>
+
+<form id="deploy-solution" method="post" action="DeployWithParameters" class="form-horizontal">
+
+  <div class="row">
+
+    <div class="col-xl-4 col-12">
+
+      <div class="mb-3">
+        <label for="SolutionName" class="form-label">Solution Name</label>
+        <select class="form-control form-select" id="SolutionName" name="SolutionName" asp-items="Model.AvailableSolutions">
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="Customer" class="form-label">Customer Name</label>
+        <select class="form-control form-select" id="Customer" name="Customer" asp-items="Model.AvailableCustomers">
+        </select>
+      </div>
+
+    </div>
+
+    <div class="col-xl-4 col-12">
+
+      <div class="mb-3">
+        <label for="TargetWorkspace" class="form-label">Target Workspace Name</label>
+        <input class="form-control" id="TargetWorkspace" name="TargetWorkspace" value="@Model.TargetWorkspace">
+      </div>
+
+    </div>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    <i class="fa fa-user-plus"></i>
+    Deploy Solution
+  </button>
+
+</form>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+      $(function () {
+        var workspaceName = "Tenant - " + $("#Customer option:selected").text();
+        $("#TargetWorkspace").val(workspaceName );
+        
+        $("#Customer").on("change", function(){
+          var customerSelection = $("#Customer option:selected").text();
+          console.log("test: " + customerSelection);
+
+        if (customerSelection == "[Deploy To All Customers]") {
+            $("#TargetWorkspace").val("");
+            $("#TargetWorkspace").attr("disabled", "disabled");
+          }
+          else{
+            $("#TargetWorkspace").removeAttr("disabled");
+            var workspaceName = "Tenant - " + $("#Customer option:selected").text();
+            $("#TargetWorkspace").val(workspaceName );
+          }
+        
+        });
+      
+      });
+
+    </script>
+
+}

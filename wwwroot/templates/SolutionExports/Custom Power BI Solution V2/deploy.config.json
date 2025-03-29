@@ -1,0 +1,35 @@
+{
+  "exportName": "Custom Power BI Solution V2",
+  "solutionName": "Custom Power BI Solution",
+  "comment": "add Time Intel report",
+  "created": "2025-03-27T14:34:17.6958657Z",
+  "sourceWorkspaceId": "3f64ffcb-9ea3-4560-90c2-16914785039e",
+  "sourceWorkspaceDescription": "Custom Power BI Solution",
+  "sourceItems": [
+    {
+      "id": "1022d380-3599-425d-a703-d89c609ca909",
+      "displayName": "Product Sales Imported Model",
+      "type": "SemanticModel"
+    },
+    {
+      "id": "fd45d206-5d32-420a-a152-6bf161ceba18",
+      "displayName": "Product Sales Summary",
+      "type": "Report"
+    },
+    {
+      "id": "1b44c3f2-38c7-47c6-8e1a-4abbaca4c559",
+      "displayName": "Product Sales Time Intelligence",
+      "type": "Report"
+    }
+  ],
+  "sourceLakehouses": [],
+  "sourceConnections": [
+    {
+      "id": "63d324db-59d4-459c-94e4-574f7ff87a25",
+      "displayName": "Web",
+      "type": "Web",
+      "path": "https://fabricdevcamp.blob.core.windows.net/sampledata/ProductSales/Dev",
+      "credentialType": "Anonymous"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+﻿@model ExportDetails
+
+<div id="export-page">
+
+  <h2>
+    <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+    <span>Solution Export: @Model.Export.ExportName</span>
+  </h2>
+
+
+  <div id="contents-main">
+
+    <div class="row">
+      <div class="col-12">
+        <h3>Export Properties</h3>
+        <table class="table table-sm table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th style="width:200px;">Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tr><td>Export Name</td><td>@Model.Export.ExportName</td></tr>
+          <tr><td>Solution Name</td><td>@Model.Export.SolutionName</td></tr>
+          <tr><td>Comment</td><td>@Model.Export.Comment</td></tr>
+          <tr><td>Source Workspace Id</td><td>@Model.Export.SourceWorkspaceId</td></tr>
+          <tr><td>Created</td><td>@Model.Export.Created.ToString()</td></tr>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-12">
+
+        <h3>Workspace Connections</h3>
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Path</th>
+            </tr>
+          </thead>
+          @foreach (var connection in Model.Export.SourceConnections) {
+            <tr>
+              <td>@connection.DisplayName</td>
+              <td>@connection.Type</td>
+              <td>@connection.Path</td>
+            </tr>
+          }
+        </table>
+
+        <h3>Workspace Items</h3>
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Display Name</th>
+              <th>Type</th>
+              <th>Source Item Id</th>
+            </tr>
+          </thead>
+          @foreach (var item in Model.Export.SourceItems) {
+            <tr>
+              <td>@item.DisplayName</td>
+              <td>@item.Type</td>
+              <td>@item.Id.ToString()</td>
+            </tr>
+          }
+        </table>
+
+      </div>
+
+    </div>
+
+    @if (Model.TargetWorkspaces.Count > 0) {
+
+      <div class="row">
+        <div class="col-12">
+          <h3>Compatible Tenant Workspaces</h3>
+          <div class="customer-tenant-toolbar">
+            <a id="update-all-with-export" class="btn btn-primary" asp-action="UpdateAllTenantsFromExport" asp-route-ExportName="@Model.Export.ExportName" asp-route-UpdateType="FullUpdate">
+              Update All Tenants (full update)
+            </a>
+            <a id="update-all-reports-with-export" class="btn btn-primary" asp-action="UpdateAllTenantsFromExport" asp-route-ExportName="@Model.Export.ExportName" asp-route-UpdateType="ReportsOnly">
+              Update All Tenants (reports only)
+            </a>
+
+          </div>
+          <table class="table table-sm table-bordered table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Display Name</th>
+                <th>Workspace Id</th>
+                <th>Solution Name</th>
+              </tr>
+            </thead>
+            @foreach (var workspace in Model.TargetWorkspaces) {
+              <tr>
+                <td>@workspace.DisplayName</td>
+                <td>@workspace.Id</td>
+                <td>@workspace.Description</td>
+              </tr>
+            }
+          </table>
+        </div>
+      </div>
+      
+    }
+
+  </div>
+
+</div>
+
+<div class="loading" style="display:none;">
+  <div class="loading-image">
+    <img src="~/images/loading.gif" />
+  </div>
+</div>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(function() {
+
+        $(".show-loading").on("click", function() {
+            $("#workspace-page").hide();
+            $(".loading").show(100);
+        });
+
+    });
+  </script>
+}

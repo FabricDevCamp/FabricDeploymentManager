@@ -1,0 +1,103 @@
+﻿@{
+  Layout = "_Layout_AsyncOperationsMonitor";
+}
+
+<div id="top-page">
+
+  <h2 id="page-title">Async Operations Monitor</h2>
+
+  <div id="client-notification">
+  </div>
+
+</div>
+
+@section Scripts {
+
+  <script type="text/javascript">
+
+    $(() => {
+
+      const topPageDiv = $("#top-page");
+      const pageTitleDiv = $("#page-title");
+      const notificationDiv = $("#client-notification");
+
+      //notificationDiv.height( $(window).height() - pageTitleDiv.height() - 42);
+  
+      var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+
+      connection.start().then(function () {
+        console.log("SignalR connection back to server established");
+       }).catch(function (err) {
+        notificationDiv.text("Error: " + err.toString());
+      });
+
+     var scrollToBottom = function(){
+      $(document).scrollTop($(document).height());
+     };
+
+      connection.on("ClientNotification", function (message) {
+        notificationDiv.append($("<div>").text(message));
+        scrollToBottom();
+      });
+
+      connection.on("ClientInProgressPing", function () {
+        const targetDiv = $(notificationDiv).children().last();
+        targetDiv.text(targetDiv.text() + ".");
+      });
+
+     connection.on("LogSolution", function (message) {
+       notificationDiv.append($("<div class='logSolution' />").text(message));
+        scrollToBottom();
+      });
+
+     connection.on("LogStep", function (message) {
+        notificationDiv.append($("<div>").text("> " + message).css("margin-top", "12px"));
+        scrollToBottom();
+      });
+
+     connection.on("LogSubstep", function (message) {
+        notificationDiv.append($("<div>").html("&nbsp;&nbsp;- " + message));
+        scrollToBottom();
+      });
+
+     connection.on("LogOperationStart", function (message) {
+        notificationDiv.append($("<div>").text(message));
+        scrollToBottom();
+      });
+
+     connection.on("LogSubOperationStart", function (message) {
+        notificationDiv.append($("<div>").html("&nbsp;&nbsp;- " + message));
+        scrollToBottom();
+      });
+
+     connection.on("LogOperationInProgress", function (message) {
+       const targetDiv = $(notificationDiv).children().last();
+       targetDiv.text(targetDiv.text() + ".");
+       scrollToBottom();
+     });
+
+     connection.on("LogOperationComplete", function (message) {
+        notificationDiv.append($("<div>").text(message));
+        scrollToBottom();
+     });
+
+     connection.on("LogTableHeader", function (message) {
+        notificationDiv.append($("<div>").text("> " + message).css("margin-top", "12px").css("margin-bottom", "6px"));
+        notificationDiv.append($("<table class='table' />").css("margin-bottom", "12px"));
+        scrollToBottom();
+      });
+
+     connection.on("LogTableRow", function (row) {
+       $("table:last").append( "<tr><td>" + row.split(",")[0] + "</td><td>" + row.split(",")[1] + "</td></tr>");
+        scrollToBottom();
+      });
+
+     connection.on("LogSolutionComplete", function (message) {
+        notificationDiv.append($("<div>").text("> " + message).css("margin-top", "12px").css("margin-bottom", "18px"));
+        scrollToBottom();
+      });
+
+    });
+
+  </script>
+}

@@ -1,0 +1,28 @@
+﻿@model List<AdoProjectRow>
+
+<H2>ADO Projects</H2>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Name</th>
+      <th>ID</th>
+      <th>Last Update</th>
+      <th>Revision</th>
+      <th>Exports</th>
+      <th>Web Url</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  @foreach (var adoProjectRow in Model) {
+    <tr>
+      <td>@adoProjectRow.AdoProject.Name</td>
+      <td>@adoProjectRow.AdoProject.Id</td>
+      <td>@adoProjectRow.AdoProject.LastUpdateTime</td>
+      <td style="text-align:center">@adoProjectRow.AdoProject.Revision</td>
+      <td style="text-align:center">@adoProjectRow.ExportNames.Count.ToString()</td>
+      <td style="text-align:center"><a href="https://dev.azure.com/FabricDevCamp/@adoProjectRow.AdoProject.Name" target="WorkspaceWebUrl" class="nav nav-link"><i class="fa fa-external-link"></i></a></td>
+      <td style="text-align:center"><a href="DeleteAdoProject/?ProjectId=@adoProjectRow.AdoProject.Id" class="nav nav-link"><i class="fa fa-remove"></i></a></td>
+   </tr>
+  }
+</table>

@@ -1,0 +1,64 @@
+table ClassSort
+	isHidden
+	lineageTag: 5831f2ee-fbf0-42ac-bfed-2dd23e3a6e8e
+
+	column Class
+		isHidden
+		lineageTag: e1782a1a-a098-43eb-9422-bd3c2f382e47
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Class]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassSortOrder
+		isHidden
+		formatString: 0
+		lineageTag: 5eec4d2c-376e-40e3-ae7f-b4c242263750
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ClassSortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ClassSort-983f9ae3-370b-48e9-94ee-c23da1d4874a = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE (
+				    "Class", STRING,
+				    "ClassSortOrder", INTEGER,
+				    {
+				        { "BUDDY", 11 },
+				        { "MENTOR", 12 },
+				        { "BAILIFF", 13 },
+				        { "MOTHER-TERISA", 14 },
+				        { "ROAD-WARRIOR", 15 },
+				        { "MUFFIN-EATER", 21 },
+				        { "PHONE-HOSTAGE", 22 },
+				        { "XEROX", 23 },
+				        { "DAY-PLANNER", 24 },
+				        { "SPONGE", 25 },
+				        { "WARDEN", 26 },
+				        { "PRISONER", 27 },
+				        { "STORY-TELLER", 41 },
+				        { "SPELL-CHECKER", 42 },
+				        { "BLUE-SCREEN", 43 },
+				        { "FLAME-THROWER", 44 },
+				        { "STALKER", 45 },
+				        { "KNOW-IT-ALL", 46 },
+				        { "SALESMAN", 53 },
+				        { "CLIENT", 55 },
+				        { "DOPPLEGANGER", 61 },
+				        { "PERFECTIONIST", 62 },
+				        { "ASSASSIN", 63 },
+				        { "BIG-BRAIN-BULLY", 64 }
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = ba604cf5e0124dbc99dcca42abdb025f
+
+	annotation HashedExpression = ERlP3ALRAzMhJuAFYkOwfmz7/T0=
+

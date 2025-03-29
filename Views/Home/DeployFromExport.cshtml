@@ -1,0 +1,70 @@
+@model FabricDeploymentManager.Models.DeployFromExportModel
+
+<h2>
+  <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+  <span>Deploy from Export</span>
+</h2>
+
+<form id="deploy-from-export" method="post" action="DeployFromExport" class="form-horizontal">
+
+  <div class="row">
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="ExportName" class="form-label">Export Name</label>
+        <select class="form-control form-select" id="ExportName" name="ExportName" asp-items="Model.AvailableExports">
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="Customer" class="form-label">Customer Name</label>
+        <select class="form-control form-select" id="Customer" name="Customer" asp-items="Model.AvailableCustomers">
+        </select>
+      </div>
+
+    </div>
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="TargetWorkspace" class="form-label">Target Workspace Name</label>
+        <input class="form-control" id="TargetWorkspace" name="TargetWorkspace" value="@Model.TargetWorkspace">
+      </div>
+
+    </div>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    <i class="fa fa-user-plus"></i>
+    Deploy Solution
+  </button>
+
+</form>
+
+@section Scripts {
+  <script type="text/javascript">
+
+     $(() => {
+      var workspaceName = "Tenant - " + $("#Customer option:selected").text();
+      $("#TargetWorkspace").val(workspaceName );
+
+      $("#Customer").on("change", function(){
+        var customerSelection = $("#Customer option:selected").text();
+        console.log("test: " + customerSelection);
+
+        if (customerSelection == "[Deploy To All Customers]") {
+          $("#TargetWorkspace").val("");
+          $("#TargetWorkspace").attr("disabled", "disabled");
+        }
+        else{
+          $("#TargetWorkspace").removeAttr("disabled");
+          var workspaceName = "Tenant - " + $("#Customer option:selected").text();
+          $("#TargetWorkspace").val(workspaceName );
+        }
+      });
+    });
+
+  </script>
+}

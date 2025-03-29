@@ -1,0 +1,74 @@
+@model FabricDeploymentManager.Models.ExportFromWorkspaceToAdoModel
+
+<h2>
+  <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+  <span>Export from Workspace to Azure Dev Ops</span>
+</h2>
+
+<form id="deploy-solution" method="post" action="ExportFromWorkspaceToAdo" class="form-horizontal">
+
+  <input id="WorkspaceId" name="WorkspaceId" value="@Model.SourceWorkspace.Id.ToString()" hidden />
+
+  <div class="row">
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="SourceWorkspace" class="form-label">Source Workspace</label>
+        <input class="form-control" id="ExportName" name="SourceWorkspace" value="@Model.SourceWorkspace.DisplayName" disabled>
+      </div>        
+
+    </div>
+
+    <div class="col-4">
+      <div class="mb-3">
+        <label for="ExportName" class="form-label">Export Name</label>
+        <input class="form-control" id="ExportName" name="ExportName" value="@Model.SuggestedExportName">
+      </div>
+
+      <div class="mb-3">
+        <label for="Comment" class="form-label">Comment</label>
+        <input class="form-control" id="Comment" name="Comment" placeholder="Add comment to enable Export Solution">
+      </div>
+
+    </div>
+
+  </div>
+
+  <br/>
+
+  <button id="export-solution" type="submit" class="btn btn-primary">
+    <i class="fa fa-user-plus"></i>
+    Export Solution
+  </button>
+
+</form>
+
+
+<div class="loading" style="display:none;">
+  <div class="loading-image">
+    <img src="~/images/loading.gif" />
+  </div>
+</div>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(function () {
+         
+      $("#Comment").val("");
+      $("#export-solution").attr("disabled", "disabled");
+      $("#ExportName").focus();
+      
+      $("#Comment").on("keyup change", () => {
+        let comment = $("#Comment").val();
+        if(comment === "") {
+          $("#export-solution").attr("disabled", "disabled");
+        }
+        else {
+          $("#export-solution").removeAttr("disabled");
+        }
+      });
+
+    });
+  </script>
+}

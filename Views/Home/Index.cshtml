@@ -1,0 +1,64 @@
+﻿@model IList<WorkspaceRow>
+
+<h2>Workspaces</h2>
+
+<div class="toolbar">
+
+  <a id="deploy-solution" class="btn btn-primary" asp-action="DeploySolution">
+    Deploy Solution
+  </a>
+
+  <a id="deploy-with-parameters" class="btn btn-primary" asp-action="DeployWithParameters">
+    Deploy with Parameters
+  </a>
+
+  <a id="deploy-from-workspace" class="btn btn-primary" asp-action="DeployFromWorkspace">
+    Deploy from Workspace
+  </a>
+
+  <a id="update-from-workspace" class="btn btn-primary" asp-action="UpdateFromWorkspace">
+    Update from Workspace
+  </a>
+
+  <a id="export-from-workspace" class="btn btn-primary" asp-action="ExportFromWorkspace">
+    Export from Workspace
+  </a>
+
+  <a id="deploy-from-export" class="btn btn-primary" asp-action="DeployFromExport">
+    Deploy from Export
+  </a>
+
+  <a id="update-from-export" class="btn btn-primary" asp-action="UpdateFromExport">
+    Update from Export
+  </a>
+
+</div>
+
+<table id="workspaces-table" class="table table-bordered table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Display Name</th>
+      <th>View</th>
+      <th>Web Url</th>
+      <th>Embed</th>    
+      <th>Delete</th>
+      <th class="d-none d-xl-table-cell" >Workspace Id</th>
+      <th class="d-none d-xxl-table-cell">Capacity Id</th>
+      <th class="d-none d-lg-table-cell">SKU</th>
+      <th class="d-none d-lg-table-cell">Region</th>
+    </tr>
+  </thead>
+  @foreach (var row in @Model) {
+    <tr>
+      <td><strong>@row.Workspace.DisplayName</strong></td>
+      <td style="text-align:center"><a href="/Home/Workspace/?WorkspaceId=@row.Workspace.Id.ToString()" class="nav nav-link"><i class="fa fa-binoculars"></i></a></td>
+      <td style="text-align:center"><a href="https://app.powerbi.com/groups/@row.Workspace.Id.ToString()" target="WorkspaceWebUrl" class="nav nav-link"><i class="fa fa-external-link"></i></a></td>
+      <td style="text-align:center"><a href="/Home/Embed/?WorkspaceId=@row.Workspace.Id.ToString()" target="_blank" class="nav nav-link"><i class="fa fa-external-link"></i></a></td>
+      <td style="text-align:center"><a href="/Home/DeleteWorkspace/?WorkspaceId=@row.Workspace.Id.ToString()" class="nav nav-link"><i class="fa fa-remove"></i></a></td>
+      <td class="d-none d-xl-table-cell">@row.Workspace.Id.ToString()</td>
+      <td class="d-none d-xxl-table-cell">@(row.Capacity == null ? "not assigned" : @row.Capacity.Id.ToString())</td>
+      <td class="d-none d-lg-table-cell" style="text-align:center">@(row.Capacity == null ? "Shared" : @row.Capacity.Sku)</td>
+      <td class="d-none d-lg-table-cell" style="text-align:center">@(row.Capacity == null ? "East US" : @row.Capacity.Region)</td>
+    </tr>
+  }
+</table>

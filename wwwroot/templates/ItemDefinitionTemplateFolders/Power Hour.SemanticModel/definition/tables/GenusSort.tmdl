@@ -1,0 +1,46 @@
+table GenusSort
+	isHidden
+	lineageTag: 46a199e2-45aa-4ee4-9891-9ce07c223cff
+
+	column Genus
+		isHidden
+		lineageTag: ad4e581c-8e93-4106-bdd3-7bb3db057e16
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Genus]
+
+		annotation SummarizationSetBy = Automatic
+
+	column GenusSortOrder
+		isHidden
+		formatString: 0
+		lineageTag: ba002852-fac4-4bfa-99c9-b38f714f25a4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [GenusSortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition GenusSort-e999bb3f-5fbb-4e23-8f50-f574b0eabb81 = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE (
+				    "Genus", STRING,
+				    "GenusSortOrder", INTEGER,
+				    {
+				        { "PRETZEL", 28 },
+				        { "DINOSAUR", 50 },
+				        { "INSURGET", 54 },
+				        { "ANGY-CLIENT", 56 },
+				        { "EVIL-GENIUS", 66 }
+				    }
+				)
+				
+				
+				```
+
+	annotation PBI_Id = ebdcad41119d49f3bae4c7b2170d3f0f
+
+	annotation HashedExpression = qd5x1pq7+89oop26iB7HRR4PHXw=
+

@@ -1,0 +1,21 @@
+relationship 8498efd7-7531-4b09-ba2d-b8292af3c8d6
+	crossFilteringBehavior: bothDirections
+	fromColumn: Strategies.Profile
+	toColumn: Profiles.Profile
+
+relationship 5c7788c3-cb6c-4264-a486-1daba2cabaa0
+	fromColumn: Profiles.Phylum
+	toColumn: PhylumSort.Phylum
+
+relationship 244f98e8-b3f2-4def-9942-e57566454cfc
+	fromColumn: Profiles.Class
+	toColumn: ClassSort.Class
+
+relationship 54ea5330-1063-4447-b742-0a540c73610e
+	fromColumn: Profiles.Genus
+	toColumn: GenusSort.Genus
+
+relationship 8f87bb0d-8cde-4ec6-8cb9-2832ad3c7771
+	fromColumn: Classroom.ProfileId
+	toColumn: Profiles.ProfileId
+

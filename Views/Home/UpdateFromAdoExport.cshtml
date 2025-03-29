@@ -1,0 +1,97 @@
+@model FabricDeploymentManager.Models.UpdateFromAdoExportModel
+
+<h2>
+  <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+  <span>Update from Azure Dev Ops Export</span>
+</h2>
+
+<form id="deploy-from-export" method="post" action="UpdateFromAdoExport" class="form-horizontal">
+
+  <input id="WorkspaceId" name="WorkspaceId" value="@Model.WorkspaceId" hidden />
+
+  <div class="row">
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="ExportName" class="form-label">Export Name</label>
+        <select class="form-control form-select" id="ExportName" name="ExportName" asp-items="Model.AvailableExports">
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="SolutionName" class="form-label">Solution Name</label>
+        <input class="form-control" id="SolutionName" name="SolutionName" value="@Model.SolutionName" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="Customer" class="form-label">Customer Name</label>
+        <input class="form-control" id="Customer" name="Customer"  readonly>
+      </div>
+
+    </div>
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="TargetWorkspace" class="form-label">Target Workspace</label>
+        <select class="form-control form-select" id="TargetWorkspace" name="TargetWorkspace" asp-items="Model.AvailableTargetWorkspaces">
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="UpdateType" class="form-label">Update Type</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="UpdateType" value="FullUpdate" id="FullUpdate" checked>
+          <label class="form-check-label" for="FullUpdate">
+            Full Update
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="UpdateType" value="ReportsOnly" id="ReportsOnly">
+          <label class="form-check-label" for="ReportsOnly">
+            Reports Only
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    <i class="fa fa-user-plus"></i>
+    Update Solution
+  </button>
+
+</form>
+
+@section Scripts {
+  <script type="text/javascript">
+
+    $(function () {
+
+       var targetWorkspace = $("#TargetWorkspace option:selected").text();
+       var customer = targetWorkspace.substring(9);
+       $("#Customer").val(customer);
+
+      $("#TargetWorkspace").on("change", function(){
+    
+        var targetWorkspace = $("#TargetWorkspace option:selected").text();
+        
+        if (targetWorkspace=="[Update All Customer Tenants]") {
+          $("#Customer").val("");
+          $("#Customer").attr("disabled", "disabled");
+        }
+        else{
+          $("#Customer").removeAttr("disabled");
+          var customer = targetWorkspace.substring(9);
+          $("#Customer").val(customer);
+        }
+
+      });
+
+    });
+
+  </script>
+}

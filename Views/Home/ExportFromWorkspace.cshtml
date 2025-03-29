@@ -1,0 +1,81 @@
+@model FabricDeploymentManager.Models.ExportFromWorkspaceModel
+
+<h2>
+  <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+  <span>Export Solution from Workspace</span>
+</h2>
+
+<form id="deploy-solution" method="post" action="ExportFromWorkspace" class="form-horizontal">
+
+  <div class="row">
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="SourceWorkspace" class="form-label">Source Workspace</label>
+        <select class="form-control form-select" id="SourceWorkspace" name="SourceWorkspace" asp-items="Model.AvailableSourceWorkspaces">
+        </select>
+      </div>
+
+    </div>
+
+    <div class="col-4">
+
+      <div class="mb-3">
+        <label for="ExportName" class="form-label">Export Name</label>
+        <input class="form-control" id="ExportName" name="ExportName">  
+      </div>
+
+      <div class="mb-3">
+        <label for="Comment" class="form-label">Comment</label>
+        <input class="form-control" id="Comment" name="Comment" placeholder="Add comment to enable Export Solution" >
+      </div>
+
+    </div>
+
+  </div>
+
+  <button id="export-solution" type="submit" class="btn btn-primary">
+    <i class="fa fa-user-plus"></i>
+    Export Solution
+  </button>
+
+</form>
+
+<div class="loading" style="display:none;">
+  <div class="loading-image">
+    <img src="~/images/loading.gif" />
+  </div>
+</div>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(() => {
+
+      let solutionName = $("#SourceWorkspace option:selected").text();
+      let exportName = solutionName + " " + new Date().toISOString().slice(0, 10);
+      $("#ExportName").val(exportName);
+      $("#Comment").val("");
+      $("#export-solution").attr("disabled", "disabled");
+      $("#ExportName").focus();
+
+      $("#SourceWorkspace").on("change", () => {
+        let solutionName = $("#SourceWorkspace option:selected").text();
+        let exportName = solutionName + " " + new Date().toISOString().slice(0, 10);
+        $("#ExportName").val(exportName);
+        $("#ExportName").focus();
+      });
+      
+      $("#Comment").on("keyup change", () => {
+        let comment = $("#Comment").val();
+        if(comment === "") {
+          $("#export-solution").attr("disabled", "disabled");
+        }
+        else {          
+          $("#export-solution").removeAttr("disabled");
+        }
+      });
+
+    });
+  </script>
+}

@@ -1,0 +1,23 @@
+﻿@model IList<Microsoft.Fabric.Api.Core.Models.Capacity>
+
+<H2>Fabric Capacities</H2>
+
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Capacity</th>
+      <th>ID</th>
+      <th>SKU</th>
+      <th>Region</th>
+    </tr>
+  </thead>
+  @foreach (var capacity in Model) {
+    <tr>
+      <td>@capacity.DisplayName</td>
+      <td>@capacity.Id</td>
+      <td>@capacity.Sku</td>
+      <td>@capacity.Region</td>
+    </tr>
+  }
+</table>

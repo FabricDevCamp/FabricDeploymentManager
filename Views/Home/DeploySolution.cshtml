@@ -1,0 +1,57 @@
+@model FabricDeploymentManager.Models.DeploySolutionModel
+
+<h2>
+  <span><a class="btn btn-sm h2-backarrow" asp-action="Index"><i class="fa fa-backward"></i></a></span>
+  <span>Deploy Solution</span>
+</h2>
+
+<form id="deploy-solution" method="post" action="DeploySolution" class="form-horizontal">
+
+  <div class="mb-3">
+    <label for="SolutionName" class="form-label">Solution Name</label>
+    <select class="form-control form-select" id="SolutionName" name="SolutionName" asp-items="Model.AvailableSolutions" >
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="TargetWorkspace" class="form-label">Target Workspace Name</label>
+    <input class="form-control" id="TargetWorkspace" name="TargetWorkspace" value="@Model.TargetWorkspace">
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">
+    <i class="fa fa-user-plus"></i>
+    Deploy Solution
+  </button>
+
+</form>
+
+
+@section Scripts {
+
+  <script type="text/javascript">
+    $(function () {
+
+      var workspaceName = $("#SolutionName option:selected").text();
+      $("#TargetWorkspace").val(workspaceName );
+
+      $("#SolutionName").on("change", function(){
+        var solutionSelection = $("#SolutionName option:selected").text();
+        console.log(solutionSelection);
+
+        if (solutionSelection == "[Deploy All Solutions]") {
+            $("#TargetWorkspace").val("");
+            $("#TargetWorkspace").attr("disabled", "disabled");
+        }
+        else {
+          $("#TargetWorkspace").removeAttr("disabled");
+          $("#TargetWorkspace").val( $("#SolutionName option:selected").text() );
+        }
+
+      });
+
+
+    });
+  </script>
+
+}

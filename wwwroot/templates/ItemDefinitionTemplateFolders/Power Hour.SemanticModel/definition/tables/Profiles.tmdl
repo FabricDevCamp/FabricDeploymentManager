@@ -1,0 +1,371 @@
+table Profiles
+	lineageTag: 73c5fc59-fae0-4a39-a98d-bbbf18fc2ddb
+
+	measure ProfileRowDepth = ```
+			
+			MAX ( Profiles[RowDepth] )
+			
+			```
+		formatString: 0
+		displayFolder: Taxonomy Data
+		lineageTag: fdbb17f1-dc87-4710-b4b4-819d5ce103de
+
+		annotation HashedExpression = jHivtl7BmGH0GlofqJFL4TUd8W8=
+
+	measure ProfileBrowseDepth = ```
+			
+			ISINSCOPE ( Profiles[Kingdom] ) + ISINSCOPE ( Profiles[Phylum] )
+			    + ISINSCOPE ( Profiles[Class] )
+			    + ISINSCOPE ( Profiles[Genus] )
+			    + ISINSCOPE ( Profiles[Species] )
+			
+			```
+		formatString: 0
+		displayFolder: Taxonomy Data
+		lineageTag: d99e25d0-3d75-4911-8069-d866f510318d
+
+		annotation HashedExpression = GBG7/jY63LlhVq1e0rlu53wY85w=
+
+	measure 'Selected Profile' = ```
+			
+			VAR FirstIndex =
+			    CALCULATE ( MIN ( Profiles[SortOrder] ), ALLSELECTED ( Profiles[Profile] ) )
+			RETURN
+			  UPPER(  LOOKUPVALUE ( Profiles[Profile], Profiles[SortOrder], FirstIndex ) )
+			
+			```
+		displayFolder: Selected Profile
+		lineageTag: 27e897e1-b55d-4625-b0b0-7a2e8bb7f6f4
+
+		annotation HashedExpression = FUBABZFcBZVCs5Sa1wljzBpPYl4=
+
+	measure 'Selected Description' =
+			
+			VAR FirstIndex = CALCULATE ( MIN ( Profiles[SortOrder] ), ALLSELECTED ( Profiles[Profile] ) )
+			VAR RawText = LOOKUPVALUE ( Profiles[Description], Profiles[SortOrder], FirstIndex )
+			VAR OriginalFormatText = SUBSTITUTE( RawText, "[separator]", UNICHAR(10) & REPT("-", 92) & UNICHAR(10) )
+			VAR FinalFormattedText = SUBSTITUTE( OriginalFormatText, "[newline]", UNICHAR((10) ) )
+			RETURN
+			    FinalFormattedText
+		displayFolder: Selected Profile
+		lineageTag: e28575a2-aab7-4488-b2cb-cb75ac8355c2
+
+		annotation HashedExpression = oODnyTalJNQoW0QeaRTURR/VfYA=
+
+	measure 'Selected Profile Photo' = ```
+			
+			VAR BaseUrl = "https://github.com/PowerBiDevCamp/PowerHour/raw/main/ProfilePhotos/"
+			VAR FirstIndex =
+			    CALCULATE ( MIN ( Profiles[SortOrder] ), ALLSELECTED ( Profiles[Profile] ) )
+			RETURN
+			    BaseUrl & LOOKUPVALUE ( Profiles[Profile], Profiles[SortOrder], FirstIndex ) & ".jpg"
+			
+			```
+		displayFolder: Selected Profile
+		lineageTag: 6fcc88f8-9464-4b51-9bf4-708090bef667
+		dataCategory: ImageUrl
+
+		annotation HashedExpression = sWvmM+yAGWDAktVpRBNn/VdEjVs=
+
+	column Taxonomy = ```
+			
+			CALCULATE ( PATH ( Profiles[Profile], Profiles[BaseProfile] ) )
+			
+			```
+		displayFolder: Taxonomy Data
+		lineageTag: 7de27d6e-67c1-4499-baf3-551abd4dac4b
+		summarizeBy: none
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_ChangedProperties = ["SortByColumn"]
+
+		annotation HashedExpression = fMBkutRj9iufvrMagA/Xns1D7Ks=
+
+	column Kingdom = ```
+			
+			PATHITEM ( Profiles[Taxonomy], 1, TEXT )
+			
+			```
+		displayFolder: Taxonomy Data
+		lineageTag: 43199177-c88c-46c5-a201-03326fe3614f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation HashedExpression = wccisJFBvbBRdcwWJ+w1V0Yag1E=
+
+	column Phylum = ```
+			
+			PATHITEM ( Profiles[Taxonomy], 2, TEXT )
+			
+			```
+		displayFolder: Taxonomy Data
+		lineageTag: 7dfbae33-1996-4300-8379-4f24a79eb08a
+		summarizeBy: none
+		sortByColumn: PhylumnSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_ChangedProperties = ["SortByColumn"]
+
+		annotation HashedExpression = ZvFoe3DgNULNl2Jz51ICECrl4Dk=
+
+	column Class = ```
+			
+			PATHITEM ( Profiles[Taxonomy], 3, TEXT )
+			
+			```
+		displayFolder: Taxonomy Data
+		lineageTag: b874cace-551f-4e28-8a91-ca7a44e5bae4
+		summarizeBy: none
+		sortByColumn: ClassSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_ChangedProperties = ["SortByColumn"]
+
+		annotation HashedExpression = bNjfnxxqBEeHwZ/GTUNN5zIBhOc=
+
+	column Genus = ```
+			
+			PATHITEM ( Profiles[Taxonomy], 4, TEXT )
+			
+			```
+		displayFolder: Taxonomy Data
+		lineageTag: b7eadf1e-7071-43f0-ab76-7840a5d835fc
+		summarizeBy: none
+		sortByColumn: GenusSort
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_ChangedProperties = ["SortByColumn"]
+
+		annotation HashedExpression = QFzTsLKlIlslm4c25tgegyLpyLk=
+
+	column Species = ```
+			
+			PATHITEM ( Profiles[Taxonomy], 5, TEXT )
+			
+			```
+		displayFolder: Taxonomy Data
+		lineageTag: 4d16aba3-7298-4190-b286-5369899b9d56
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation HashedExpression = ZY6Q3V2/j7ITM+Lx5xeKto0hgGk=
+
+	column Profile
+		dataType: string
+		lineageTag: 62d6b98f-bc59-4252-a570-78f30c3c79d1
+		summarizeBy: none
+		sourceColumn: Profile
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_ChangedProperties = ["SortByColumn"]
+
+	column BaseProfile
+		dataType: string
+		lineageTag: 7119b3f1-183f-4966-a654-28bbc4313719
+		summarizeBy: none
+		sourceColumn: BaseProfile
+
+		annotation SummarizationSetBy = Automatic
+
+	column TaxonomicRank
+		dataType: string
+		displayFolder: Taxonomy Data
+		lineageTag: 3769adf2-1759-4df7-9628-da9dd26044b6
+		summarizeBy: none
+		sourceColumn: TaxonomicRank
+
+		annotation SummarizationSetBy = Automatic
+
+	column RowDepth = ```
+			
+			PATHLENGTH ( Profiles[Taxonomy] )
+			
+			```
+		formatString: 0
+		displayFolder: Taxonomy Data
+		lineageTag: cc8add60-bfb2-42ee-bbf7-037a07ba3765
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation HashedExpression = XL6HBIBxaDtJoWycta0QHs/+3Ic=
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		displayFolder: Taxonomy Data
+		lineageTag: aed64257-ed84-4c43-ad21-3e9500ba11de
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = User
+
+	column Description
+		dataType: string
+		lineageTag: d9d5862e-5988-4f22-9c69-26962a747053
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhylumnSortOrder = ```
+			
+			RELATED ( PhylumSort[PhylumSortOrder] )
+			
+			```
+		isHidden
+		formatString: 0
+		displayFolder: Taxonomy Data
+		lineageTag: 092073f9-ec83-45f3-86fb-46bf5bcc1ed6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation HashedExpression = i2wlrTCw6MfQvHaCf4qRHOV1RuI=
+
+		annotation PBI_ChangedProperties = ["IsHidden"]
+
+	column ClassSortOrder = ```
+			
+			RELATED ( ClassSort[ClassSortOrder] )
+			
+			```
+		isHidden
+		formatString: 0
+		displayFolder: Taxonomy Data
+		lineageTag: d760bc8d-1a2a-4941-b5a4-4b581b055634
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation HashedExpression = U0ksQtt58KE/Dr35HXQQ73/2B1c=
+
+		annotation PBI_ChangedProperties = ["IsHidden"]
+
+	column GenusSort = ```
+			
+			RELATED ( GenusSort[GenusSortOrder] )
+			
+			```
+		isHidden
+		formatString: 0
+		displayFolder: Taxonomy Data
+		lineageTag: 50cf310e-e68f-429f-8e66-4d9269a99639
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation HashedExpression = oLg4HAE31x0FCtGgDwp67s1Cc9M=
+
+		annotation PBI_ChangedProperties = ["IsHidden"]
+
+	column ProfileId
+		dataType: int64
+		formatString: 0
+		lineageTag: c65def80-d518-4156-81db-6df1b7ff50e4
+		summarizeBy: none
+		sourceColumn: ProfileId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Description' = ```
+			
+			  VAR OriginalFormatText = SUBSTITUTE( [Description], "[separator]", UNICHAR(10) & REPT("-", 92) & UNICHAR(10) )
+			  VAR FinalFormattedText = SUBSTITUTE( OriginalFormatText, "[newline]", UNICHAR((10) ) )
+			RETURN
+			  FinalFormattedText
+			```
+		lineageTag: 9393bc86-9399-40bf-8cc3-e0842fea97ee
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Profile Photo' =
+			
+			VAR BaseUrl = "https://github.com/PowerBiDevCamp/PowerHour/raw/main/ProfilePhotos/"
+			RETURN
+			    BaseUrl & Profiles[Profile] & ".jpg"
+		lineageTag: fd93419a-1241-479e-ac79-94886f259e57
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Behavior Type' = ```
+			
+			  SWITCH(TRUE(),
+			    CONTAINSSTRING([Taxonomy], "STAR"), "STAR",
+			    CONTAINSSTRING([Taxonomy], "TEFLON"), "TEFLON",
+			    CONTAINSSTRING([Taxonomy], "RED-FLAG"), "RED-FLAG",
+			    CONTAINSSTRING([Taxonomy], "SLEEPER"), "SLEEPER"
+			  )
+			```
+		lineageTag: 54472a73-0d27-4ee8-8e8d-f2b31c9ed357
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Behavior Color' = ```
+			
+			  SWITCH([Behavior Type], 
+			    "STAR", "#e6e6ff", 
+			    "TEFLON", "#ffffe6", 
+			    "RED-FLAG", "#ffd0d0", 
+			    "SLEEPER", "#ffa0a0"
+			)
+			```
+		lineageTag: c239a7ac-4a87-43cb-928d-5e4ba81f8942
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Taxonomy Hierarchy'
+		lineageTag: 80c18af1-9227-424f-b75b-299701763169
+
+		level Kingdom
+			lineageTag: a1f41765-9144-468b-9574-4072a1b4081f
+			column: Kingdom
+
+		level Phylum
+			lineageTag: 180885a3-b003-4fef-ba3a-77cf0f40f6ac
+			column: Phylum
+
+		level Class
+			lineageTag: 1ec833eb-50b8-4692-a5bb-db4929622c66
+			column: Class
+
+		level Genus
+			lineageTag: 38b82218-1f62-41ac-a917-b334907edc87
+			column: Genus
+
+		level Species
+			lineageTag: 9c5ad7f0-3fe2-4509-ac97-76fa119ee435
+			column: Species
+
+	partition Profiles-10eff100-6c81-479b-a6b7-47a5543b6ef2 = m
+		mode: import
+		source =
+				let
+				    Source = Json.Document(Web.Contents(ProfilesJsonFileUrl)),
+				    ConvertedToTable = Table.FromRecords({Source}),
+				    ExpandedAttendeeTypes = Table.ExpandRecordColumn(ConvertedToTable, "AttendeeTypes", {"AttendeeType"}, {"AttendeeType"}),
+				    ExpandedAttendeeTypes.AttendeeType = Table.ExpandListColumn(ExpandedAttendeeTypes, "AttendeeType"),
+				    ExpandedAttendeeTypes.AttendeeType1 = Table.ExpandRecordColumn(ExpandedAttendeeTypes.AttendeeType, "AttendeeType", {"SortOrder", "BaseProfile", "Profile", "TaxonomicRank", "Description"
+				}, {"SortOrder", "BaseProfile", "Profile", "TaxonomicRank", "Description" }),
+				    ChangedType = Table.TransformColumnTypes(ExpandedAttendeeTypes.AttendeeType1,{{"BaseProfile", type text}, {"Description", type text}, {"Profile", type text}, {"SortOrder", Int64.Type}, {"TaxonomicRank", type text}}),
+				    AddedIndex = Table.AddIndexColumn(ChangedType, "Index", 1, 1, Int64.Type),
+				    RenamedColumns = Table.RenameColumns(AddedIndex,{{"Index", "ProfileId"}})
+				in
+				    RenamedColumns
+
+	annotation PBI_ResultType = Table
+

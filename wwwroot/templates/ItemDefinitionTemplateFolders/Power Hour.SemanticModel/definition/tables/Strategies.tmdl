@@ -1,0 +1,76 @@
+table Strategies
+	lineageTag: 8d839c00-9518-4835-b9ff-47c4c379fe55
+
+	measure SortOrderRank = ```
+			
+			IF (
+			    HASONEVALUE ( Strategies[Profile] ),
+			    RANKX (
+			        ALLSELECTED ( Strategies ),
+			        CALCULATE ( MIN ( Strategies[SortOrder] ) ),
+			        ,
+			        ASC,
+			        DENSE
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 8c6ec760-da9b-47d8-b848-7ae5374f9b20
+
+		annotation HashedExpression = uDbxjG0TtH3KDylVSY/vhedlJh4=
+
+	column Profile
+		dataType: string
+		lineageTag: 6865d686-119e-476c-9a9b-bc52d3b3c864
+		summarizeBy: none
+		sourceColumn: Profile
+
+		annotation SummarizationSetBy = Automatic
+
+	column Strategies
+		dataType: string
+		lineageTag: b2e285f9-4375-4f89-bc45-e02197a5ce31
+		summarizeBy: none
+		sourceColumn: Strategies
+		sortByColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_ChangedProperties = ["SortByColumn"]
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 82a50b16-44fe-4b92-9441-37adfc689ad8
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = User
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: f6874655-e4aa-448d-b29d-2ce016afc9d9
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Strategies-15033efa-48a7-4e7e-b964-82c677df7491 = m
+		mode: import
+		source =
+				let
+				    Source = Json.Document(Web.Contents(ProfilesJsonFileUrl)),
+				    AttendeeTypes = Source[AttendeeTypes],
+				    AttendeeType = AttendeeTypes[AttendeeType],
+				    ConvertedToTable = Table.FromList(AttendeeType, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    ExpandedColumn1 = Table.ExpandRecordColumn(ConvertedToTable, "Column1", {"Profile", "SortOrder", "Strategies"}, {"Profile", "SortOrder", "Strategies"}),
+				    ExpandedStrategies = Table.ExpandListColumn(ExpandedColumn1, "Strategies"),
+				    ChangedType = Table.TransformColumnTypes(ExpandedStrategies,{{"Profile", type text}, {"SortOrder", Int64.Type}, {"Strategies", type text}}),
+				    AddedIndex = Table.AddIndexColumn(ChangedType, "Index", 0, 1, Int64.Type)
+				in
+				    AddedIndex
+
+	annotation PBI_ResultType = Table
+

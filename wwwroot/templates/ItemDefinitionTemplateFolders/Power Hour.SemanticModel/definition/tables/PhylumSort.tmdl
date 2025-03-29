@@ -1,0 +1,44 @@
+table PhylumSort
+	isHidden
+	lineageTag: a600f6ba-3c9d-47f6-b8a6-cee3c5400467
+
+	column Phylum
+		isHidden
+		lineageTag: a1418825-5dcc-4262-8081-344cc69a1eaa
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Phylum]
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhylumSortOrder
+		isHidden
+		formatString: 0
+		lineageTag: 56e04662-253c-4744-85f0-a8f2fd587df5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [PhylumSortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PhylumSort-d180ce2c-58ba-44c2-8df6-31aa2d4fff5a = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE (
+				    "Phylum", STRING,
+				    "PhylumSortOrder", INTEGER,
+				    {
+				        { "STAR", 1 },
+				        { "TEFLON", 2 },
+				        { "RED-FLAG", 3 },
+				        { "SLEEPER", 4 }
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 91bcaf7450114b8d9a051c861990eb99
+
+	annotation HashedExpression = 7wqzNkVqTABl4vKrDyRaR4V9QoQ=
+
