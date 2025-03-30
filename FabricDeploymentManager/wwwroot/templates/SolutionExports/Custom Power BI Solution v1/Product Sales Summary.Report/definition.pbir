@@ -5,7 +5,7 @@
       "connectionString": "Data Source=\"powerbi://api.powerbi.com/v1.0/myorg/Custom Power BI Solution\";Initial Catalog=\"Product Sales Imported Model\";Integrated Security=ClaimsToken",
       "pbiServiceModelId": null,
       "pbiModelVirtualServerName": "sobe_wowvirtualserver",
-      "pbiModelDatabaseName": "1022d380-3599-425d-a703-d89c609ca909",
+      "pbiModelDatabaseName": "ee3f5a17-710b-4fef-9bc6-36510c31f852",
       "name": "EntityDataSource",
       "connectionType": "pbiServiceXmlaStyleLive"
     }

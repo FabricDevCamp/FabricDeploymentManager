@@ -1,18 +1,18 @@
 {
-  "exportName": "Custom Power BI Solution v1",
+  "exportName": "Custom Power BI Solution V1",
   "solutionName": "Custom Power BI Solution",
-  "comment": "just one report in first release",
-  "created": "2025-03-27T06:27:56.3711093Z",
-  "sourceWorkspaceId": "3f64ffcb-9ea3-4560-90c2-16914785039e",
+  "comment": "Initial release with one report",
+  "created": "2025-03-29T21:44:04.6058874Z",
+  "sourceWorkspaceId": "04dfd451-0835-4685-8fbc-c320ce9c9c07",
   "sourceWorkspaceDescription": "Custom Power BI Solution",
   "sourceItems": [
     {
-      "id": "1022d380-3599-425d-a703-d89c609ca909",
+      "id": "ee3f5a17-710b-4fef-9bc6-36510c31f852",
       "displayName": "Product Sales Imported Model",
       "type": "SemanticModel"
     },
     {
-      "id": "fd45d206-5d32-420a-a152-6bf161ceba18",
+      "id": "efc75872-9a19-4e8c-9787-b329f0eabd12",
       "displayName": "Product Sales Summary",
       "type": "Report"
     }
@@ -20,7 +20,7 @@
   "sourceLakehouses": [],
   "sourceConnections": [
     {
-      "id": "63d324db-59d4-459c-94e4-574f7ff87a25",
+      "id": "b3afd7e7-cb85-41b0-ab9c-a7ad0fb7ff7a",
       "displayName": "Web",
       "type": "Web",
       "path": "https://fabricdevcamp.blob.core.windows.net/sampledata/ProductSales/Dev",

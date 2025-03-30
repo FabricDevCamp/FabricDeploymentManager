@@ -1,59 +1,59 @@
 {
   "exportName": "Custom Notebook Solution V2",
-  "solutionName": "Custom Lakehouse Solution",
-  "comment": "Adding Time Intelligence Report",
-  "created": "2025-03-28T15:11:11.0022534Z",
-  "sourceWorkspaceId": "e8c613ce-e487-4f18-b282-2704a789454d",
-  "sourceWorkspaceDescription": "Custom Lakehouse Solution",
+  "solutionName": "Custom Notebook Solution",
+  "comment": "Adding Time Intelligence report",
+  "created": "2025-03-29T20:43:47.4305153Z",
+  "sourceWorkspaceId": "bd6fb0b1-47b8-4fcb-ba41-76292775c72d",
+  "sourceWorkspaceDescription": "Custom Notebook Solution",
   "sourceItems": [
     {
-      "id": "ab9d5808-81bc-4f52-8e84-ebed046f34d6",
+      "id": "e0b7fefe-ff4f-41f4-8415-2baec4ded36e",
       "displayName": "sales",
       "type": "Lakehouse"
     },
     {
-      "id": "f588b313-27db-4478-bf95-60d8d180a1fa",
+      "id": "5948e107-fe92-407d-98ae-d8d7eec1764b",
       "displayName": "Create Lakehouse Tables",
       "type": "Notebook"
     },
     {
-      "id": "c407d234-835a-4dd8-97a0-970f4d44f933",
+      "id": "c67b59fa-719a-497d-a390-ff98e947dadd",
       "displayName": "Product Sales DirectLake Model",
       "type": "SemanticModel"
     },
     {
-      "id": "7624552a-dc87-4bdb-b991-e42bc979b186",
+      "id": "497c96fc-ea5e-49d2-9d71-80b43448dcec",
       "displayName": "Product Sales Summary",
       "type": "Report"
     },
     {
-      "id": "c396f5e1-41ec-4ad2-81dc-5aa252a29aac",
+      "id": "dfe97369-802d-4604-b416-e1e09c206fe2",
       "displayName": "Product Sales Time Intelligence",
       "type": "Report"
     }
   ],
   "sourceLakehouses": [
     {
-      "id": "ab9d5808-81bc-4f52-8e84-ebed046f34d6",
+      "id": "e0b7fefe-ff4f-41f4-8415-2baec4ded36e",
       "displayName": "sales",
-      "server": "4zzdkw4hunvuhp4ttpl5hvkkzm-zyj4n2eh4qme7muce4ckpckfju.datawarehouse.fabric.microsoft.com",
-      "database": "1cb80ef5-87c2-4bf1-b9bf-ebfc8c7e8cc4",
+      "server": "4zzdkw4hunvuhp4ttpl5hvkkzm-wgyg7pnyi7fu7osboyuso5ohfu.datawarehouse.fabric.microsoft.com",
+      "database": "a25c46ee-90a8-4e70-856e-ef792dd1ac7a",
       "shortcuts": null
     }
   ],
   "sourceConnections": [
     {
-      "id": "11405646-c781-4596-b034-34ab13ea89e0",
+      "id": "3eca3a71-e82b-4584-8b85-66262137996b",
       "displayName": "Web",
       "type": "Web",
       "path": "https://fabricdevcamp.blob.core.windows.net/sampledata/ProductSales/Dev",
       "credentialType": "Anonymous"
     },
     {
-      "id": "fdeeadc8-670f-4585-9cb2-36c430933e36",
+      "id": "bd117f5d-efc8-4404-b5a7-deb4bd88848b",
       "displayName": "Lakehouse[sales]",
       "type": "SQL",
-      "path": "4zzdkw4hunvuhp4ttpl5hvkkzm-zyj4n2eh4qme7muce4ckpckfju.datawarehouse.fabric.microsoft.com;1cb80ef5-87c2-4bf1-b9bf-ebfc8c7e8cc4",
+      "path": "4zzdkw4hunvuhp4ttpl5hvkkzm-wgyg7pnyi7fu7osboyuso5ohfu.datawarehouse.fabric.microsoft.com;a25c46ee-90a8-4e70-856e-ef792dd1ac7a",
       "credentialType": "ServicePrincipal"
     }
   ]
